@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Start</title>
+<script type="text/javascript">
+function show(){
+	document.getElementById("resp").innerHTML=document.getElementById("nume").value;	
+}
+
+function showName() {
+	var xmlhttp = new XMLHttpRequest();
+	var nume=document.getElementById("nume").value;
+	var host=document.getElementById("host").value;
+	xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) 
+             document.getElementById("resp").innerHTML = this.responseText;
+            //alert("Hei"+this.responseText); 
+        };
+         
+        xmlhttp.open("GET","Start?nume=" +nume+"&host="+host, true);
+        xmlhttp.send();}
+</script>
+</head>
+<body>
+<input id="nume" type="text">
+<input id="host" type="text" placeholder="Hostname">
+<button onClick="showName();">Apasa ceva</button>
+<p id="resp"></p>
+</body>
+</html>
