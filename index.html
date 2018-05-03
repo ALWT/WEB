@@ -3,29 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <title>Start</title>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+
 <script type="text/javascript">
-function show(){
-	document.getElementById("resp").innerHTML=document.getElementById("nume").value;	
+
+function showfarmacii()
+{
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() 
+	{
+		if (this.readyState == 4 && this.status == 200) 
+		{
+			document.getElementById("farm").innerHTML = this.responseText;	
+		} 
+	};
+	xmlhttp.open("GET","Start", true);
+	xmlhttp.send();
 }
 
-function showName() {
+function cauta() 
+{
 	var xmlhttp = new XMLHttpRequest();
-	var nume=document.getElementById("nume").value;
-	var host=document.getElementById("host").value;
-	xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) 
-             document.getElementById("resp").innerHTML = this.responseText;
-            //alert("Hei"+this.responseText); 
-        };
-         
-        xmlhttp.open("GET","Start?nume=" +nume+"&host="+host, true);
-        xmlhttp.send();}
+	var nume=document.getElementById("medicament").value;
+	var nr=document.getElementById("cate_medicamente").value;
+	
+	xmlhttp.onreadystatechange = function() 
+	{
+    	if (this.readyState == 4 && this.status == 200) 
+            document.getElementById("continut").innerHTML = this.responseText;
+    };
+    
+    xmlhttp.open("GET","Cauta_Med?nume="+nume+"&nr="+nr, true);
+    xmlhttp.send();
+ }
 </script>
+
 </head>
-<body>
-<input id="nume" type="text">
-<input id="host" type="text" placeholder="Hostname">
-<button onClick="showName();">Apasa ceva</button>
-<p id="resp"></p>
+
+<body onload="showfarmacii();">
+<p class="titlu"><b>FarmaALWT</b></p> 
+	<p class="textButon">
+	    <input id="medicament" type="text" placeholder="Cauta medicament">
+	    <input id="cate_medicamente" type="text" placeholder="Cate?" >
+	    <button id="buton" onClick="cauta();">Cauta</button>   <!--implementare metoda-->
+	</p>
+
+	<div id="continut"></div>
+	<div id="farm"></div>
+	
 </body>
 </html>

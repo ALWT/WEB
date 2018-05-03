@@ -12,63 +12,52 @@ import javax.servlet.http.HttpServletResponse;
 
 import classes.*;
 import interfaces.*;
+import implement.*;
 import java.rmi.registry.*;
 
-
 @WebServlet(description = "ceva", urlPatterns = { "/Start" })
-public class Start extends HttpServlet {
+public class Start extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L;
-       
-    public Start() {
-        super();}
+    
+    public Start() 
+    {
+        super();    
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String docType ="<!doctype html public>\n";
-		String nume=request.getParameter("nume");
-		/*if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }*/
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		String resp="";
-		for(Server s:Connection.getServ_list())
-        {try {String name1 = "DB-"+s.getDbase();
-            String name2 = "Farmacie-"+s.getDbase();
-            String name3 = "Stoc-"+s.getDbase();
-            String name4 = "Produs-"+s.getDbase();
-            Registry registry = LocateRegistry.getRegistry(s.getHost());
-            DBManageinter db = (DBManageinter) registry.lookup(name1);
-            Farmacieinter farm = (Farmacieinter) registry.lookup(name2);
-            Stocinter stoc = (Stocinter) registry.lookup(name3);
-            Produsinter prod = (Produsinter) registry.lookup(name4);
-            List<Farmacie> fl=db.getFarmacii();
-            if(fl!=null)
-            for(Farmacie f:fl)
-            {resp+=f.getNume()+" "+f.getAdresa()+" "+f.getOras()+" "+f.getProgram()+/*" "+f.getDBase()+*/"\n";
-            List<Produs> pl=farm.getProductsFarmacie(f);
-            if(pl!=null);
-            {for(Produs p:pl)
-            {resp+=p.getNume()+" "+p.getClasa()+"\n";
-            Stoc st=prod.getStoc(p.getID(), f.getID());
-            if(st!=null)
-            resp+=st.getCantitate()+" "+st.getPret()+"\n";
-            }}	
-            }
-            } catch (Exception e) {
+		for(Server s: Connection.getServ_list())
+        {
+			try 
+			{  
+				/*Registry r= LocateRegistry.getRegistry(s.getHost());
+				DBManageinter db =(DBManageinter)r.lookup("DBManage-"+s.getDbase());*/
+	            
+				DBManageinter db = new DBManageReal("localhost","pad_bd","root","");
+
+	            List<Farmacie> fl = db.getFarmacii();
+	            if(fl!=null)
+	            	
+	            	for(Farmacie f : fl)
+			        {
+	            			resp+="<div class=\"floating-box\">"+f.getNume()+"<br>"+f.getAdresa()+"<br>"+f.getNrtel()+"<br>"+"</div>";
+			        }   	
+            } 
+			catch (Exception e) 
+			{
                 System.err.println("ComputeEngine exception:");
                 e.printStackTrace();
             }
-        resp+="\n";
+		
         }
-		response.getWriter().append("Served at: ").append(request.getContextPath()).append("\n");
-		response.getWriter().println(resp);
+		response.getWriter().println(resp);	
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
