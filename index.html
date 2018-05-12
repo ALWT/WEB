@@ -3,29 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <title>Start</title>
+<link rel="stylesheet" type="text/css" href="bootstrap.css">
+<script src="bootstrap.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
 <script type="text/javascript">
-function show(){
-	document.getElementById("resp").innerHTML=document.getElementById("nume").value;	
+
+function buymedicament(med,bd)
+{
+	console.log(med);
+	var xmlhttp = new XMLHttpRequest();
+	if(med!=undefined&&bd!=undefined)
+	{
+		var nr=document.getElementById("cate_medicamente").value;
+		xmlhttp.onreadystatechange = function() 
+		{
+	    	if (this.readyState == 4 && this.status == 200) 
+	            //document.getElementById("continut").innerHTML = this.responseText;
+	    		total();
+	    };
+    
+	    xmlhttp.open("GET","Shop?nr="+nr+"&med="+med+"&bd="+bd, true);
+	    xmlhttp.send();
+	}
 }
 
-function showName() {
+function total()
+{
+	var nr=document.getElementById("cate_medicamente").value;
+	console.log(nr);
 	var xmlhttp = new XMLHttpRequest();
-	var nume=document.getElementById("nume").value;
-	var host=document.getElementById("host").value;
-	xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) 
-             document.getElementById("resp").innerHTML = this.responseText;
-            //alert("Hei"+this.responseText); 
-        };
-         
-        xmlhttp.open("GET","Start?nume=" +nume+"&host="+host, true);
-        xmlhttp.send();}
+	xmlhttp.onreadystatechange = function() 
+	{
+		if (this.readyState == 4 && this.status == 200) 
+	        document.getElementById("total").innerHTML = this.responseText;
+	};
+	
+	xmlhttp.open("GET","ShowList", true);
+	xmlhttp.send();
+}
+
+function showfarmacii()
+{
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() 
+	{
+		if (this.readyState == 4 && this.status == 200) 
+		{
+			document.getElementById("farm").innerHTML = this.responseText;	
+		} 
+	};
+	xmlhttp.open("GET","Start", true);
+	xmlhttp.send();
+}
+
+function cauta() 
+{
+	var xmlhttp = new XMLHttpRequest();
+	var nume=document.getElementById("medicament").value;
+	var nr=document.getElementById("cate_medicamente").value;
+	
+	xmlhttp.onreadystatechange = function() 
+	{
+    	if (this.readyState == 4 && this.status == 200) 
+            document.getElementById("continut").innerHTML = this.responseText;
+    };
+    
+    xmlhttp.open("GET","Cauta_Med?nume="+nume+"&nr="+nr, true);
+    xmlhttp.send();
+ }
+ 
+ function emptybasket()
+ {var xmlhttp = new XMLHttpRequest();
+	/*xmlhttp.onreadystatechange = function() 
+	{
+    	if (this.readyState == 4 && this.status == 200) 
+           document.getElementById("continut").innerHTML = this.responseText;
+    };*/
+    
+    xmlhttp.open("GET","EmptyBasket", true);
+    xmlhttp.send();}
 </script>
+
 </head>
-<body>
-<input id="nume" type="text">
-<input id="host" type="text" placeholder="Hostname">
-<button onClick="showName();">Apasa ceva</button>
-<p id="resp"></p>
+<body onload="showfarmacii();total();" background="img\wallpaper2.jpg">
+<p class="titlu"><b>FarmaALWT</b></p> 
+	<p class="textButon">
+	    <input id="medicament" type="text" placeholder="Cauta medicament" class="form-control">
+	    <input id="cate_medicamente" type="text" placeholder="Cate?" class="form-control" >
+	    <button id="buton" onClick="cauta();" class="btn btn-dark">Cauta</button>   
+	</p>
+   <div class="row">
+	<div id="total" class="col-2"></div>
+	<button class="btn btn-dark" onClick="emptybasket();">Goleste Cos</button>
+	<div id="continut" class="col-10"></div>
+	</div>
+	<div class="row">
+	<div id="farm"></div>
+	</div>
 </body>
 </html>
