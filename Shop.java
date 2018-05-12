@@ -40,12 +40,13 @@ public class Shop extends HttpServlet
 		String med=request.getParameter("med");
 		String nr=request.getParameter("nr");
 		String bd =request.getParameter("bd");
+		String host =request.getParameter("host");
 			try 
 			{
 				int quant=Integer.parseInt(nr);
-				//Registry r= LocateRegistry.getRegistry(bd);
-			    //DBManageinter db =(DBManageinter)r.lookup("DBManage-"+bd);
-			    DBManageReal db = new DBManageReal("localhost",bd,"root","");
+				Registry r= LocateRegistry.getRegistry(host);
+			    DBManageinter db =(DBManageinter)r.lookup("DBManage-"+bd);
+			    //DBManageReal db = new DBManageReal("localhost",bd,"root","");
 				Medicament m=db.getMedicamentName(med);
 				
 				if(m!=null)

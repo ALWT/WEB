@@ -32,9 +32,6 @@ public class Cauta_Med extends HttpServlet
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String nume = request.getParameter("nume");
@@ -46,13 +43,14 @@ public class Cauta_Med extends HttpServlet
 			contor++;
 			try 
 			{  
-				//Registry r= LocateRegistry.getRegistry(s.getHost());
-				//DBManageinter db =(DBManageinter)r.lookup("DBManage-"+s.getDbase());
-				//Medicamentinter medd =(Medicamentinter)r.lookup("Medicament-"+s.getDbase());
-			    DBManageReal db = new DBManageReal("localhost",s.getDbase(),"root","");
-	            MedicamentReal medd = new MedicamentReal("localhost",s.getDbase(),"root","");
-	            
+				Registry r= LocateRegistry.getRegistry(s.getHost());
+				DBManageinter db =(DBManageinter)r.lookup("DBManage-"+s.getDbase());
+				Medicamentinter medd =(Medicamentinter)r.lookup("Medicament-"+s.getDbase());
+			    //DBManageReal db = new DBManageReal("localhost",s.getDbase(),"root","");
+	            //MedicamentReal medd = new MedicamentReal("localhost",s.getDbase(),"root","");
+	            System.out.println("med name:"+nume);
 	            Medicament med = db.getMedicamentName(nume);//caut numele medicamentului in tabela Medicament
+	            System.out.println(med==null);
 	            int id = med.getID();
 	            int cantitate = Integer.parseInt(request.getParameter("nr"));//cantitate medicament
 	            int ok=0; //pp ca nu exista medicament in nicio farmacie
@@ -62,34 +60,36 @@ public class Cauta_Med extends HttpServlet
 	            	if(contor==1)
 	            	{
 	            		resp +="<div class=\"poza\"><img src=img\\"+med.getPoza()+" alt=medicament height=\"148\" width=\"248\"></div>";
-	            		resp +="<div class=\"descriere\">Server : "+(i++)+"</br>"+med.getDescriere()+"</br></br>"+"<div style=\"font-size: 25px\"><b> Pret :"+med.getPret()+" lei</b>"+"</div></div>";
+	            		resp +="<div class=\"descriere\">Server : "+(i++)+"<br>"+med.getDescriere()+"<br><br>"+"<div style=\"font-size: 25px\"><b> Pret :"+med.getPret()+" lei</b>"+"</div></div>";
 
 	            	}
     				
     				List<Farmacie> fl = medd.getFarm(id);
+    				System.out.println(fl.size());
 	            	if(fl != null)
             		{
 	            		String farmacie = ""; 
             			for(Farmacie f : fl)
         				{
             				Med_Farmacie  meddd = medd.getMed_Farm(id, f.getID());
-        					if(meddd.getCantitate() >= cantitate)
+        					System.out.println(meddd.getCantitate());
+            				if(meddd.getCantitate() >= cantitate)
         					{
-        						farmacie += f.getNume()+"</br>";
+        						farmacie += f.getNume()+"<br>";
         						ok=1;
         					}
         				}
             			
             			if (ok==0)
-            				resp +="<div class=\"disponibilitate\">"+"Nu exista in stoc "+"</br>"+"</div>";
+            				resp +="<div class=\"disponibilitate\">"+"Nu exista in stoc "+"<br>"+"</div>";
             			else
             			{
 							
-							String aux="<button class=\"btn btn-dark\" style=\"margin-left: 1200px\" onClick=\"buymedicament('"+med.getNume()+"','"+s.getDbase()+"');\">Adauga in WishList "+med.getPret()+" Ron"+s.getDbase()+"</button>";
+							String aux="<button class=\"btn btn-dark\" style=\"margin-left: 1200px\" onClick=\"buymedicament('"+med.getNume()+"','"+s.getDbase()+"','"+s.getHost()+"');\">Adauga in WishList "+med.getPret()+" Ron"+s.getDbase()+"</button>";
 							System.out.println(aux);
 							resp+=aux;
  
-							resp +="<div class=\"disponibilitate\">"+"Disponibil in :<div style=\"margin-left: 125px\">"+farmacie+"</br>"+"</div></div>";
+							resp +="<div class=\"disponibilitate\">"+"Disponibil in :<div style=\"margin-left: 125px\">"+farmacie+"<br>"+"</div></div>";
             			}
             		}
 	            } 
@@ -109,13 +109,12 @@ public class Cauta_Med extends HttpServlet
                 System.err.println("ComputeEngine exception:");
                 e.printStackTrace();
             }
-			resp+="</br></br></br>";
+			resp+="<br><br><br>";
         }
 		response.getWriter().println(resp);	
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

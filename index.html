@@ -8,11 +8,11 @@
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 <script type="text/javascript">
 
-function buymedicament(med,bd)
+function buymedicament(med,bd,host)
 {
 	console.log(med);
 	var xmlhttp = new XMLHttpRequest();
-	if(med!=undefined&&bd!=undefined)
+	if(med!=undefined&&bd!=undefined&&host!=null)
 	{
 		var nr=document.getElementById("cate_medicamente").value;
 		xmlhttp.onreadystatechange = function() 
@@ -22,7 +22,7 @@ function buymedicament(med,bd)
 	    		total();
 	    };
     
-	    xmlhttp.open("GET","Shop?nr="+nr+"&med="+med+"&bd="+bd, true);
+	    xmlhttp.open("GET","Shop?nr="+nr+"&med="+med+"&bd="+bd+"&host="+host, true);
 	    xmlhttp.send();
 	}
 }
