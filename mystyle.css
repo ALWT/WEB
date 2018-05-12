@@ -1,0 +1,89 @@
+.titlu
+{
+    background-color: #cccccc; 
+    text-align: center;
+    color:#000099;
+    font-size: 40px;
+    width: 100%;
+    height: 50px;
+    margin: 0px;
+    padding: 0px; 
+}
+
+.textButon
+{
+    margin-top:100px;
+    margin-left: 550px;
+}
+
+#buton
+{
+    background-color: #999999; 
+    font-size: 16px;
+    width: 10%;
+    border: 3px solid #999999;
+    padding: 10px; 
+}
+
+#cate_medicamente
+{
+	font-size: 16px;
+    width: 8%;
+    border: 3px solid #000099;
+    padding: 10px;
+}
+
+#medicament
+{
+    font-size: 16px;
+    width: 40%;
+    border: 3px solid #000099;
+    padding: 10px;
+}
+
+.floating-box 
+{
+    display: inline-block;
+    font-size: 20px;
+    width: 200px;
+    height: 120px;
+    margin-top: 100px;
+    margin-left: 125px;
+    margin-bottom: 30px;
+    border: 3px solid #000099; 
+    text-align: center;
+    padding: 10px; 
+}
+
+.poza
+{
+	float: left;
+    width: 250px;
+    height: 150px;
+    margin-left: 450px;
+    border: 3px solid #000099;  
+}
+
+.descriere
+{
+    font-size: 20px;
+    width: 660px;
+    height: 250px;
+    margin-top: 100px;
+    margin-left: 750px;
+    border: 3px solid #000099;  
+    text-align: justify; 
+    padding: 20px;
+}
+
+.disponibilitate
+{
+	font-size: 20px;
+    width: 750px;
+    height: 120px;
+    margin-top: 100px;
+    margin-left: 550px;
+    border: 3px solid #000099; 
+    text-align: justify;
+    padding: 20px;
+}
