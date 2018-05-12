@@ -74,11 +74,11 @@ function cauta()
  
  function emptybasket()
  {var xmlhttp = new XMLHttpRequest();
-	/*xmlhttp.onreadystatechange = function() 
+	xmlhttp.onreadystatechange = function() 
 	{
     	if (this.readyState == 4 && this.status == 200) 
-           document.getElementById("continut").innerHTML = this.responseText;
-    };*/
+           total();
+    };
     
     xmlhttp.open("GET","EmptyBasket", true);
     xmlhttp.send();}
